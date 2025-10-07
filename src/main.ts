@@ -5,6 +5,7 @@ document.body.innerHTML = `
   <p>Example change: <img src="${exampleIconUrl}" class="icon" /></p>
 `;
 
+// Create Button
 const button = document.createElement("button");
 button.textContent = "💵";
 document.body.append(button);
