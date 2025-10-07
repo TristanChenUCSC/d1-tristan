@@ -7,5 +7,5 @@ document.body.innerHTML = `
 
 // Create Button
 const button = document.createElement("button");
-button.textContent = "💵";
+button.textContent = "💰";
 document.body.append(button);
