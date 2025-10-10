@@ -21,3 +21,9 @@ button.addEventListener("click", () => {
   counter++;
   counterElement.textContent = `${counter} Brain Nourishment Points`;
 });
+
+// Automatic Clicking logic
+setInterval(() => {
+  counter++;
+  counterElement.textContent = `${counter} Brain Nourishment Points`;
+}, 1000);
