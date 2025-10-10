@@ -22,8 +22,19 @@ button.addEventListener("click", () => {
   counterElement.textContent = `${counter} Brain Nourishment Points`;
 });
 
-// Automatic Clicking logic
-setInterval(() => {
-  counter++;
-  counterElement.textContent = `${counter} Brain Nourishment Points`;
-}, 1000);
+// Automatic Clicking logic with continuous growth
+let last_timestamp: number | null = null;
+
+function step(timestamp: number) {
+  if (last_timestamp !== null) {
+    const delta: number = timestamp - last_timestamp;
+    const increment: number = delta / 1000;
+    counter += increment;
+    counterElement.textContent = `${
+      counter.toFixed(0)
+    } Brain Nourishment Points`;
+  }
+  last_timestamp = timestamp;
+  requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
