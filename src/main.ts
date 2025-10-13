@@ -14,7 +14,7 @@ counterElement.textContent = "0 Brain Nourishment Points";
 document.body.append(counterElement);
 
 // Counter logic
-let counter: number = 0;
+let counter: number = 10000;
 button.addEventListener("click", () => {
   counter++;
   counterElement.textContent = `${counter} Brain Nourishment Points`;
@@ -26,9 +26,10 @@ upgrade1.textContent = "A";
 document.body.append(upgrade1);
 upgrade1.disabled = true;
 let upgrade1amount = 0;
+let upgrade1cost = 10;
 const upgrade1status = document.createElement("div");
 upgrade1status.textContent =
-  `Amount purchased: ${upgrade1amount} Cost: 10 Points, +0.1 points/second`;
+  `Amount purchased: ${upgrade1amount} Cost: ${upgrade1cost} points, +0.1 points/second`;
 document.body.append(upgrade1status);
 
 const upgrade2 = document.createElement("button");
@@ -36,9 +37,10 @@ upgrade2.textContent = "B";
 document.body.append(upgrade2);
 upgrade2.disabled = true;
 let upgrade2amount = 0;
+let upgrade2cost = 100;
 const upgrade2status = document.createElement("div");
 upgrade2status.textContent =
-  `Amount purchased: ${upgrade2amount} Cost: 100 Points, +2 points/second`;
+  `Amount purchased: ${upgrade2amount} Cost: ${upgrade2cost} points, +2 points/second`;
 document.body.append(upgrade2status);
 
 const upgrade3 = document.createElement("button");
@@ -46,9 +48,10 @@ upgrade3.textContent = "C";
 document.body.append(upgrade3);
 upgrade3.disabled = true;
 let upgrade3amount = 0;
+let upgrade3cost = 1000;
 const upgrade3status = document.createElement("div");
 upgrade3status.textContent =
-  `Amount purchased: ${upgrade3amount} Cost: 1000 Points, +50 points/second`;
+  `Amount purchased: ${upgrade3amount} Cost: ${upgrade3cost} points, +50 points/second`;
 document.body.append(upgrade3status);
 
 // Continuous growth logic for autoclicking + running game
@@ -70,26 +73,35 @@ function step(timestamp: number) {
 
     // Status updates
     growthDisplay.textContent = `${growthRate.toFixed(1)} points/second`;
-    upgrade1status.textContent =
-      `Amount purchased: ${upgrade1amount} Cost: 10 Points, +0.1 points/second`;
-    upgrade2status.textContent =
-      `Amount purchased: ${upgrade2amount} Cost: 100 Points, +2 points/second`;
-    upgrade3status.textContent =
-      `Amount purchased: ${upgrade3amount} Cost: 1000 Points, +50 points/second`;
+    upgrade1status.textContent = `Amount purchased: ${upgrade1amount} Cost: ${
+      upgrade1cost.toFixed(2)
+    } points, +0.1 points/second`;
+    upgrade2status.textContent = `Amount purchased: ${upgrade2amount} Cost: ${
+      upgrade2cost.toFixed(2)
+    } points, +2 points/second`;
+    upgrade3status.textContent = `Amount purchased: ${upgrade3amount} Cost: ${
+      upgrade3cost.toFixed(2)
+    } points, +50 points/second`;
 
-    // Unlock upgrade1 at 10 points
-    if (counter >= 10) {
+    // Unlock upgrade1
+    if (counter >= upgrade1cost) {
       upgrade1.disabled = false;
+    } else {
+      upgrade1.disabled = true;
     }
 
-    // Unlock upgrade2 at 100 points
-    if (counter >= 100) {
+    // Unlock upgrade2
+    if (counter >= upgrade2cost) {
       upgrade2.disabled = false;
+    } else {
+      upgrade2.disabled = true;
     }
 
-    // Unlock upgrade3 at 1000 points
-    if (counter >= 1000) {
+    // Unlock upgrade3
+    if (counter >= upgrade3cost) {
       upgrade3.disabled = false;
+    } else {
+      upgrade3.disabled = true;
     }
   }
   last_timestamp = timestamp;
@@ -99,31 +111,25 @@ requestAnimationFrame(step);
 
 // Upgrade logic
 upgrade1.addEventListener("click", () => {
-  counter -= 10;
+  counter -= upgrade1cost;
   growthRate += 0.1; // Increase growth rate by 0.1 points per second
   upgrade1amount++;
+  upgrade1cost *= 1.15; // Increase cost by 15%
   counterElement.textContent = `${counter} Brain Nourishment Points`;
-  if (counter < 10) {
-    upgrade1.disabled = true;
-  }
 });
 
 upgrade2.addEventListener("click", () => {
-  counter -= 100;
+  counter -= upgrade2cost;
   growthRate += 2; // Increase growth rate by 2 points per second
   upgrade2amount++;
+  upgrade2cost *= 1.15; // Increase cost by 15%
   counterElement.textContent = `${counter} Brain Nourishment Points`;
-  if (counter < 100) {
-    upgrade2.disabled = true;
-  }
 });
 
 upgrade3.addEventListener("click", () => {
-  counter -= 1000;
+  counter -= upgrade3cost;
   growthRate += 50; // Increase growth rate by 50 points per second
   upgrade3amount++;
+  upgrade3cost *= 1.15; // Increase cost by 15%
   counterElement.textContent = `${counter} Brain Nourishment Points`;
-  if (counter < 1000) {
-    upgrade3.disabled = true;
-  }
 });
