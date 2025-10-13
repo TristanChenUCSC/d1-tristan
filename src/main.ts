@@ -9,14 +9,47 @@ interface Item {
   cost: number;
   rate: number;
   amount: number;
+  description: string;
   button?: HTMLButtonElement;
   status?: HTMLDivElement;
 }
 
 const availableItems: Item[] = [
-  { name: "Scrolling Thumb", cost: 10, rate: 0.1, amount: 0 },
-  { name: "Repost Bot", cost: 100, rate: 2, amount: 0 },
-  { name: "Brainrot Engine", cost: 1000, rate: 50, amount: 0 },
+  {
+    name: "Scrolling Thumb",
+    cost: 10,
+    rate: 0.1,
+    amount: 0,
+    description: "A thumb that endlessly scrolls through short form content.",
+  },
+  {
+    name: "Repost Bot",
+    cost: 100,
+    rate: 2,
+    amount: 0,
+    description: "A bot that reposts memes for more dopamine.",
+  },
+  {
+    name: "Brainrot Engine",
+    cost: 1000,
+    rate: 50,
+    amount: 0,
+    description: "AI model curating the most brain-melting content possible.",
+  },
+  {
+    name: "AI Slop Generator",
+    cost: 10000,
+    rate: 1500,
+    amount: 0,
+    description: "You want more slop? You'll GET more slop.",
+  },
+  {
+    name: "Dopamine Farm",
+    cost: 100000,
+    rate: 35000,
+    amount: 0,
+    description: "Neural farm that extracts raw attention energy.",
+  },
 ];
 
 // Create Main Button
@@ -41,18 +74,25 @@ let growthRate: number = 0;
 const growthDisplay = document.createElement("div");
 growthDisplay.textContent = `${growthRate.toFixed(1)} dopamine/second`;
 document.body.append(growthDisplay);
+document.body.append(document.createElement("br"));
 
-// Create item buttons and status displays
+// Create item buttons, descriptions, and status displays
 for (const item of availableItems) {
   const itemButton = document.createElement("button");
   itemButton.textContent = item.name;
   document.body.append(itemButton);
   itemButton.disabled = true;
 
+  const itemDescription = document.createElement("div");
+  itemDescription.textContent = item.description;
+  document.body.append(itemDescription);
+
   const itemStatus = document.createElement("div");
   itemStatus.textContent =
     `Amount purchased: ${item.amount} Cost: ${item.cost} dopamine, +${item.rate} dopamine/second`;
   document.body.append(itemStatus);
+
+  document.body.append(document.createElement("br"));
 
   item.button = itemButton;
   item.status = itemStatus;
