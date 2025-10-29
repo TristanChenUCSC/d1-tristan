@@ -3,6 +3,8 @@ import "./style.css";
 document.body.innerHTML = `
 `;
 
+// === Type Definitions ===
+
 // Define item structure for data-driven design
 interface Item {
   name: string;
@@ -13,6 +15,10 @@ interface Item {
   button?: HTMLButtonElement;
   status?: HTMLDivElement;
 }
+
+// === Game State ===
+let growthRate: number = 0;
+let counter: number = 0;
 
 const availableItems: Item[] = [
   {
@@ -52,6 +58,8 @@ const availableItems: Item[] = [
   },
 ];
 
+// === DOM Initialization ===
+
 // Create Main Button
 const button = document.createElement("button");
 button.textContent = "🧠";
@@ -62,15 +70,7 @@ const counterElement = document.createElement("div");
 counterElement.textContent = "0 Dopamine";
 document.body.append(counterElement);
 
-// Counter logic
-let counter: number = 0;
-button.addEventListener("click", () => {
-  counter++;
-  counterElement.textContent = `${counter} Dopamine`;
-});
-
 // Growth rate display
-let growthRate: number = 0;
 const growthDisplay = document.createElement("div");
 growthDisplay.textContent = `${growthRate.toFixed(1)} dopamine/second`;
 document.body.append(growthDisplay);
@@ -98,7 +98,30 @@ for (const item of availableItems) {
   item.status = itemStatus;
 }
 
-// Continuous growth logic for autoclicking + running game
+// === Event Listeners and Game Loop ===
+
+// Main button logic to increase counter
+button.addEventListener("click", () => {
+  counter++;
+  counterElement.textContent = `${counter} Dopamine`;
+});
+
+// Button logic for each item
+for (const item of availableItems) {
+  if (item.button) {
+    item.button.addEventListener("click", () => {
+      if (counter >= item.cost) {
+        counter -= item.cost;
+        growthRate += item.rate;
+        item.amount++;
+        item.cost *= 1.15; // Increase cost by 15%
+        counterElement.textContent = `${counter.toFixed(0)} Dopamine`;
+      }
+    });
+  }
+}
+
+// Continuous growth logic for autoclicking + game loop
 let last_timestamp: number | null = null;
 
 function step(timestamp: number) {
@@ -133,18 +156,3 @@ function step(timestamp: number) {
   requestAnimationFrame(step);
 }
 requestAnimationFrame(step);
-
-// Button logic for each item
-for (const item of availableItems) {
-  if (item.button) {
-    item.button.addEventListener("click", () => {
-      if (counter >= item.cost) {
-        counter -= item.cost;
-        growthRate += item.rate;
-        item.amount++;
-        item.cost *= 1.15; // Increase cost by 15%
-        counterElement.textContent = `${counter.toFixed(0)} Dopamine`;
-      }
-    });
-  }
-}
