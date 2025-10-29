@@ -122,11 +122,11 @@ for (const item of availableItems) {
 }
 
 // Continuous growth logic for autoclicking + game loop
-let last_timestamp: number | null = null;
+let lastTimestamp: number | null = null;
 
 function step(timestamp: number) {
-  if (last_timestamp !== null) {
-    const delta: number = timestamp - last_timestamp;
+  if (lastTimestamp !== null) {
+    const delta: number = timestamp - lastTimestamp;
     const increment: number = delta / 1000;
     counter += increment * growthRate;
     counterElement.textContent = `${counter.toFixed(0)} Dopamine`;
@@ -152,7 +152,7 @@ function step(timestamp: number) {
       }
     }
   }
-  last_timestamp = timestamp;
+  lastTimestamp = timestamp;
   requestAnimationFrame(step);
 }
 requestAnimationFrame(step);
