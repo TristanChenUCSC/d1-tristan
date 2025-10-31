@@ -1,8 +1,5 @@
 import "./style.css";
 
-document.body.innerHTML = `
-`;
-
 // === Type Definitions ===
 
 // Define item structure for data-driven design
@@ -22,35 +19,35 @@ let counter: number = 0;
 
 const availableItems: Item[] = [
   {
-    name: "Scrolling Thumb",
+    name: "👍 Scrolling Thumb (+0.1/sec)",
     cost: 10,
     rate: 0.1,
     amount: 0,
     description: "A thumb that endlessly scrolls through short form content.",
   },
   {
-    name: "Repost Bot",
+    name: "♻️ Repost Bot (+2/sec)",
     cost: 100,
     rate: 2,
     amount: 0,
     description: "A bot that reposts memes for more dopamine.",
   },
   {
-    name: "Brainrot Engine",
+    name: "⚙️ Brainrot Engine (+50/sec)",
     cost: 1000,
     rate: 50,
     amount: 0,
     description: "AI model curating the most brain-melting content possible.",
   },
   {
-    name: "AI Slop Generator",
+    name: "🤖 AI Slop Generator (+1500/sec)",
     cost: 10000,
     rate: 1500,
     amount: 0,
     description: "You want more slop? You'll GET more slop.",
   },
   {
-    name: "Dopamine Farm",
+    name: "🧪 Dopamine Farm (+35000/sec)",
     cost: 100000,
     rate: 35000,
     amount: 0,
@@ -60,42 +57,77 @@ const availableItems: Item[] = [
 
 // === DOM Initialization ===
 
-// Create Main Button
-const button = document.createElement("button");
-button.textContent = "🧠";
-document.body.append(button);
+// Main container
+const gameContainer = document.createElement("div");
+gameContainer.className = "game-container";
+document.body.append(gameContainer);
 
-// Create counter element
+// Left side (clicker panel)
+const clickerPanel = document.createElement("div");
+clickerPanel.className = "clicker-panel";
+gameContainer.append(clickerPanel);
+
+// Title
+const title = document.createElement("h1");
+title.textContent = "Brainrot Clicker";
+title.classList.add("game-title");
+clickerPanel.append(title);
+
+// Counter
 const counterElement = document.createElement("div");
+counterElement.className = "counter";
 counterElement.textContent = "0 Dopamine";
-document.body.append(counterElement);
+clickerPanel.append(counterElement);
 
 // Growth rate display
 const growthDisplay = document.createElement("div");
+growthDisplay.className = "growth-rate";
 growthDisplay.textContent = `${growthRate.toFixed(1)} dopamine/second`;
-document.body.append(growthDisplay);
-document.body.append(document.createElement("br"));
+clickerPanel.append(growthDisplay);
+
+// Main button
+const button = document.createElement("button");
+button.id = "brainButton";
+button.textContent = "🧠";
+clickerPanel.append(button);
+
+// Right side (shop panel)
+const shopPanel = document.createElement("div");
+shopPanel.className = "shop-panel";
+gameContainer.append(shopPanel);
+
+const shopTitle = document.createElement("h2");
+shopTitle.textContent = "Brainrot Advancements";
+shopPanel.append(shopTitle);
 
 // Create item buttons, descriptions, and status displays
 for (const item of availableItems) {
-  const itemButton = document.createElement("button");
-  itemButton.textContent = item.name;
-  document.body.append(itemButton);
-  itemButton.disabled = true;
+  const shopItem = document.createElement("div");
+  shopItem.className = "shop-item";
 
-  const itemDescription = document.createElement("div");
-  itemDescription.textContent = item.description;
-  document.body.append(itemDescription);
+  const infoDiv = document.createElement("div");
+  const nameEl = document.createElement("strong");
+  nameEl.textContent = item.name;
 
-  const itemStatus = document.createElement("div");
-  itemStatus.textContent =
-    `Amount purchased: ${item.amount} Cost: ${item.cost} dopamine, +${item.rate} dopamine/second`;
-  document.body.append(itemStatus);
+  const descEl = document.createElement("p");
+  descEl.textContent = item.description;
 
-  document.body.append(document.createElement("br"));
+  const statusEl = document.createElement("p");
+  statusEl.textContent = `Owned: ${item.amount}      Cost: ${
+    item.cost.toFixed(2)
+  }`;
 
-  item.button = itemButton;
-  item.status = itemStatus;
+  infoDiv.append(nameEl, descEl, statusEl);
+  shopItem.append(infoDiv);
+
+  const buyButton = document.createElement("button");
+  buyButton.textContent = "Buy";
+  buyButton.disabled = true;
+  shopItem.append(buyButton);
+
+  item.button = buyButton;
+  item.status = statusEl;
+  shopPanel.append(shopItem);
 }
 
 // === Event Listeners and Game Loop ===
@@ -129,15 +161,15 @@ function step(timestamp: number) {
     const delta: number = timestamp - lastTimestamp;
     const increment: number = delta / 1000;
     counter += increment * growthRate;
-    counterElement.textContent = `${counter.toFixed(0)} Dopamine`;
+    counterElement.textContent = `${counter.toFixed(1)} Dopamine`;
 
     // Status updates
     growthDisplay.textContent = `${growthRate.toFixed(1)} dopamine/second`;
     for (const item of availableItems) {
       if (item.status) {
-        item.status.textContent = `Amount purchased: ${item.amount} Cost: ${
+        item.status.textContent = `Owned: ${item.amount}      Cost: ${
           item.cost.toFixed(2)
-        } dopamine, +${item.rate} dopamine/second`;
+        }`;
       }
     }
 

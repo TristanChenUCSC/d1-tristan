@@ -1,5 +1,139 @@
-.icon {
-  width: 64px;
-  vertical-align: top;
-  border: 1px solid salmon;
+body {
+  margin: 0;
+  background: radial-gradient(circle at center, #6169de 0%, #d26be4 100%);
+  color: white;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  gap: 40px;
+  box-shadow: 0 0 40px rgba(148, 7, 161, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+/* Panel-like layout inspired by Planet Clicker: https://github.com/inyoo403/D1.a */
+.clicker-panel {
+  width: 280px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.238);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.shop-panel {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Big, visually obvious main button also inspired by Planet Clicker: https://github.com/inyoo403/D1.a */
+#brainButton {
+  font-size: 180px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  animation: float 2s ease-in-out infinite;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+#brainButton:hover {
+  transform: scale(1.2) rotate(5deg);
+  filter: brightness(1.2) drop-shadow(0 0 50px #07ec44);
+}
+
+#brainButton:active {
+  transform: scale(0.9);
+  filter: brightness(0.8);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.counter {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.growth-rate {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 15px;
+}
+
+.shop-item {
+  background: rgba(68, 60, 232, 0.911);
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shop-item strong {
+  display: block;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.shop-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+}
+
+.shop-item button {
+  background: #9d4edd;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.shop-item button:disabled {
+  background: #444;
+  cursor: not-allowed;
+}
+
+.shop-item button:hover:not(:disabled) {
+  background: #c77dff;
+}
+
+.game-title {
+  animation: bounce 2s infinite;
+  display: inline-block;
+  color: #c77dff;
+  text-shadow: 0 0 10px #9d4edd;
+}
+
+/* Title bounce animation inspired by Frog Clicker: https://github.com/mgembree/cmpm-121-f25-mattembree */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-25px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+  70% {
+    transform: translateY(-5px);
+  }
 }
